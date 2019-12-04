@@ -24,6 +24,10 @@ prices_and_names = zip(prices.values(), prices.keys())
 (45.23, 'AAA')
 >>> max(zip(prices.values(), prices.keys())) 
 (45.23, 'ZZZ')
+
+# 아래에 반환된 view 객체는 집합 연산을 지원
+dict.keys() -> key-view 반환
+dict.items() -> item-view 반환
 """
 
 # 최소값
