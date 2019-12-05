@@ -9,11 +9,8 @@ import gzip
 import os
 import re
 
-
 def gen_find(filepat, top):
-    '''
-    Find all filenames in a directory tree that match a shell wildcard pattern
-    '''
+    # 패턴과 일치하는 모든 파일 검색
     for path, dirlist, filelist in os.walk(top):
         for name in fnmatch.filter(filelist, filepat):
             yield os.path.join(path, name)  # yield
@@ -29,13 +26,24 @@ def gen_opener(filenames):
         else:
             f = open(filename, 'rt')
         yield f  # yield
+        # 한 개의 파일에 대한 작업이 끝나면 f.close()
         f.close()
 
 
+# iterators = 파일들
 def gen_concatenate(iterators):
+    # yield를 이용할 때
+    # i = 각 파일
+    # for it in iterators:
+    #     # 각 파일의 라인
+    #     for j in it:
+    #         yield j
+
     # 이터레이터 시퀀스를 단일 시퀀스로 통합
     for it in iterators:
-        yield from it  # yield
+        # yield from: 각 iterator의 순환을 it에 위임한다.
+        # -> 위(yield)와 같이 별도의 순환문을 이용할 필요 없이 바로 처리할 수 있다.
+        yield from it
 
 
 def gen_grep(pattern, lines):
@@ -48,11 +56,11 @@ def gen_grep(pattern, lines):
             yield line  # yield
 
 
+
 if __name__ == '__main__':
 
     # 각 함수는 제너레이터 객체를 반환한다.
     lognames = gen_find('access-log*', 'www')
-    print(lognames)
     files = gen_opener(lognames)
     lines = gen_concatenate(files)
     pylines = gen_grep('(?i)python', lines)

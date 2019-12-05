@@ -5,6 +5,18 @@
 
 from itertools import dropwhile
 
+"""
+# abcd
+# efg
+# hijk
+lmn
+opqrst
+uvws
+# 1234
+# 567
+0000
+"""
+
 # 데이터의 처음 시작이 '#'일 경우
 with open('test.txt') as f:
     # dropwhile은 조건 함수를 만족한 이후 부터 동작하지 않는다.
